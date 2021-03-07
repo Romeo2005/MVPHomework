@@ -1,24 +1,23 @@
 package org.romeo.mvphomework.main
 
-import org.romeo.mvphomework.model.Repository
+import com.github.terrakok.cicerone.Router
+import moxy.MvpPresenter
+import org.romeo.mvphomework.navigation.BackPressedListener
+import org.romeo.mvphomework.navigation.IScreens
 
-class MainPresenter(private val view: MainView, private val repository: Repository) {
+class MainPresenter(
+    private val screens: IScreens,
+    private val router: Router
+) : MvpPresenter<MainView>(), BackPressedListener {
 
-    fun pressed1() {
-        view.setText1(repository.increase1().toString())
+    override fun onFirstViewAttach() {
+        router.replaceScreen(screens.getUsersScreen())
+
+        super.onFirstViewAttach()
     }
 
-    fun pressed2() {
-        view.setText2(repository.increase2().toString())
-    }
-
-    fun pressed3() {
-        view.setText3(repository.increase3().toString())
-    }
-
-    fun initViews() {
-        view.setText1(repository.get1().toString())
-        view.setText2(repository.get2().toString())
-        view.setText3(repository.get3().toString())
+    override fun onBackPressed(): Boolean {
+        router.exit()
+        return true
     }
 }

@@ -1,49 +1,56 @@
 package org.romeo.mvphomework.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
+import org.romeo.mvphomework.R
 import org.romeo.mvphomework.databinding.ActivityMainBinding
-import org.romeo.mvphomework.model.MainRepository
+import org.romeo.mvphomework.navigation.App
+import org.romeo.mvphomework.navigation.BackPressedListener
+import org.romeo.mvphomework.navigation.Screens
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
+
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private val presenter: MainPresenter by lazy { MainPresenter(this, MainRepository) }
+    private val navigator by lazy {
+        AppNavigator(this, R.id.main_container)
+    }
+
+    private val presenter by moxyPresenter {
+        MainPresenter(Screens, App.instance.router)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        initViews()
     }
 
-    private fun initViews() {
-        presenter.initViews()
-
-        binding.button1.setOnClickListener {
-            presenter.pressed1()
-        }
-
-        binding.button2.setOnClickListener {
-            presenter.pressed2()
-        }
-
-        binding.button3.setOnClickListener {
-            presenter.pressed3()
-        }
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        App.instance.navigatorHolder.setNavigator(navigator)
     }
 
-    override fun setText1(text: String) {
-        binding.button1.text = text
+    override fun onPause() {
+        App.instance.navigatorHolder.removeNavigator()
+
+        super.onPause()
     }
 
-    override fun setText2(text: String) {
-        binding.button2.text = text
-    }
+    override fun onBackPressed() {
+        val backListeners =
+            supportFragmentManager.fragments
+                .filter { it is BackPressedListener }
+                .map { it as BackPressedListener }
 
-    override fun setText3(text: String) {
-        binding.button3.text = text
+        var res = false
+
+        if (backListeners.isNotEmpty())
+            backListeners.forEach { res = res || it.onBackPressed() }
+
+        if (!res) presenter.onBackPressed()
     }
 }
