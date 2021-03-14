@@ -1,28 +1,29 @@
 package org.romeo.mvphomework.base.base_fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.os.Parcelable
 import androidx.viewbinding.ViewBinding
 import moxy.MvpAppCompatFragment
-import org.romeo.mvphomework.databinding.FragmentUserBinding
-import kotlin.reflect.KClass
 
 open class BaseFragment<B : ViewBinding> : MvpAppCompatFragment() {
     protected var binding: B? = null
 
-/*    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) =*/
-
     companion object {
-        inline fun <reified T : BaseFragment<out ViewBinding>> newInstance(args: Bundle? = null): T {
+        inline fun <reified T : BaseFragment<out ViewBinding>>
+                newInstance(inArgs: Map<String, Parcelable>? = null): T {
+
             val c = T::class.java
             val fragment = c.newInstance()
-            fragment.arguments = args
+
+            inArgs ?: let { return@newInstance fragment}
+
+            val arguments = Bundle()
+
+            for (p in inArgs)
+                arguments.putParcelable(p.key, p.value)
+
+            fragment.arguments = arguments
+
             return fragment
         }
     }

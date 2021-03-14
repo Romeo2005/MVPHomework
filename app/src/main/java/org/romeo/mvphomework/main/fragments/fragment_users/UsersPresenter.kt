@@ -1,12 +1,11 @@
 package org.romeo.mvphomework.main.fragments.fragment_users
 
-import android.os.Bundle
-import android.util.Log
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import org.romeo.mvphomework.main.fragments.USER_KEY
-import org.romeo.mvphomework.main.fragments.fragment_user.UserPresenter
+import org.romeo.mvphomework.main.fragments.fragment_users.list.IUserItemView
 import org.romeo.mvphomework.main.fragments.fragment_users.list.IUsersListPresenter
+import org.romeo.mvphomework.main.fragments.fragment_users.list.UpdateListener
 import org.romeo.mvphomework.main.fragments.fragment_users.list.UsersListAdapter
 import org.romeo.mvphomework.model.IUsersRepository
 import org.romeo.mvphomework.model.entities.User
@@ -19,27 +18,43 @@ class UsersPresenter(
 ) :
     IUsersPresenter, MvpPresenter<IUsersView>() {
 
-    class UsersListPresenter(repo: IUsersRepository) :
+    class UsersListPresenter(private val repo: IUsersRepository) :
         IUsersListPresenter {
 
-        override var items = repo.users
+        override var items: List<User> = run {
+            var list: List<User> = listOf()
+
+            repo.getUserObservable.subscribe {
+                list = it
+            }
+
+            list
+        }
+
+        override var updateListener: UpdateListener? = null
+
+        init {
+            repo.getUsersSubject().subscribe {
+                items = it
+                updateListener?.onUpdate?.invoke()
+            }
+        }
 
         override val itemsNumber: Int
             get() = items.size
 
-        override fun bind(pos: Int, item: UsersListAdapter.UserViewHolder) {
+        override fun bind(pos: Int, item: IUserItemView) {
             item.setUsername(items[pos].username)
         }
 
         override var onClick: ((UsersListAdapter.UserViewHolder) -> Unit)? = null
-
-
-/*        private fun startUserFragment(user: User) {
-            Log.d(TAG, "startUserFragment: ${user.username}")
-        }*/
     }
 
     override val listPresenter = UsersListPresenter(repo)
+
+    override fun addUserPressed(username: String) {
+        repo.addNewUser(User(username))
+    }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -48,9 +63,7 @@ class UsersPresenter(
         listPresenter.onClick = {
             val user = listPresenter.items[it.adapterPosition]
 
-            val data = Bundle()
-
-            data.putParcelable(USER_KEY, user)
+            val data = mapOf(USER_KEY to user)
 
             router.navigateTo(screens.getUserScreen(data))
         }

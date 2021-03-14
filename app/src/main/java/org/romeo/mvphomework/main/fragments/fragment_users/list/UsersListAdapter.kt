@@ -7,7 +7,7 @@ import org.romeo.mvphomework.databinding.ItemUserBinding
 import org.romeo.mvphomework.model.entities.User
 
 class UsersListAdapter(private val presenter: IUsersListPresenter) :
-    RecyclerView.Adapter<UsersListAdapter.UserViewHolder>() {
+    RecyclerView.Adapter<UsersListAdapter.UserViewHolder>(), UpdateListener {
 
     inner class UserViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root), IUserItemView {
@@ -21,6 +21,10 @@ class UsersListAdapter(private val presenter: IUsersListPresenter) :
         override fun setUsername(username: String) {
             binding.usernameText.text = username
         }
+    }
+
+    init {
+        presenter.updateListener = this
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder =
@@ -37,4 +41,8 @@ class UsersListAdapter(private val presenter: IUsersListPresenter) :
     }
 
     override fun getItemCount() = presenter.itemsNumber
+
+    override val onUpdate = {
+        notifyDataSetChanged()
+    }
 }

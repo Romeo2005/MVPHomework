@@ -2,6 +2,7 @@ package org.romeo.mvphomework.main.fragments.fragment_users
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
@@ -43,5 +44,15 @@ class UsersFragment : IUsersView, BaseFragment<FragmentUsersBinding>(), BackPres
 
     override fun updateList() {
         lAdapter.notifyDataSetChanged()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding?.let { binding ->
+            binding.newUserButton.setOnClickListener {
+                presenter.addUserPressed(binding.usernameText.text.toString())
+            }
+        }
     }
 }
