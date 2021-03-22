@@ -4,7 +4,4 @@ import org.romeo.mvphomework.base.base_list.IListPresenter
 import org.romeo.mvphomework.model.github.entities.GithubUser
 
 interface IUsersListPresenter :
-    IListPresenter<GithubUser, IUserItemView>, UserItemClickListener {
-
-    var updateListener: UpdateListener?
-}
+    IListPresenter<GithubUser, IUserItemView>, UserItemClickListener

@@ -23,8 +23,6 @@ class UsersPresenter(
 
         override var items: List<GithubUser> = listOf()
 
-        override var updateListener: UpdateListener? = null
-
         override val itemsNumber: Int
             get() = items.size
 

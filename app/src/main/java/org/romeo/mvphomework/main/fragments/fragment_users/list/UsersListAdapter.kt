@@ -30,10 +30,6 @@ class UsersListAdapter(private val presenter: IUsersListPresenter, private val i
         }
     }
 
-    init {
-        presenter.updateListener = this
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder =
         UserViewHolder(
             ItemUserBinding.inflate(
