@@ -5,5 +5,11 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 
 @AddToEndSingle
 interface IUserView : MvpView {
-    fun setUsernameText(username: String)
+    fun initReposList()
+
+    fun updateList()
+
+    fun setUsername(username: String)
+
+    fun loadAvatar(url: String)
 }

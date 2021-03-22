@@ -2,15 +2,19 @@ package org.romeo.mvphomework.main.fragments.fragment_users.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import org.romeo.mvphomework.databinding.ItemUserBinding
-import org.romeo.mvphomework.model.entities.User
+import org.romeo.mvphomework.main.GlideImageLoader
+import org.romeo.mvphomework.model.image.ImageLoader
 
 class UsersListAdapter(private val presenter: IUsersListPresenter) :
     RecyclerView.Adapter<UsersListAdapter.UserViewHolder>(), UpdateListener {
 
-    inner class UserViewHolder(private val binding: ItemUserBinding) :
-        RecyclerView.ViewHolder(binding.root), IUserItemView {
+    inner class UserViewHolder(
+        private val binding: ItemUserBinding,
+        private val imageLoader: ImageLoader<ImageView>
+    ) : RecyclerView.ViewHolder(binding.root), IUserItemView {
 
         init {
             binding.root.setOnClickListener {
@@ -20,6 +24,10 @@ class UsersListAdapter(private val presenter: IUsersListPresenter) :
 
         override fun setUsername(username: String) {
             binding.usernameText.text = username
+        }
+
+        override fun setAvatar(url: String) {
+            imageLoader.load(url, binding.avatarImg)
         }
     }
 
@@ -33,7 +41,8 @@ class UsersListAdapter(private val presenter: IUsersListPresenter) :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            GlideImageLoader()
         )
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {

@@ -1,14 +1,15 @@
 package org.romeo.mvphomework.main.fragments.fragment_users
 
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpPresenter
 import org.romeo.mvphomework.main.fragments.USER_KEY
 import org.romeo.mvphomework.main.fragments.fragment_users.list.IUserItemView
 import org.romeo.mvphomework.main.fragments.fragment_users.list.IUsersListPresenter
 import org.romeo.mvphomework.main.fragments.fragment_users.list.UpdateListener
 import org.romeo.mvphomework.main.fragments.fragment_users.list.UsersListAdapter
-import org.romeo.mvphomework.model.IUsersRepository
-import org.romeo.mvphomework.model.entities.User
+import org.romeo.mvphomework.model.github.IUsersRepository
+import org.romeo.mvphomework.model.github.entities.GithubUser
 import org.romeo.mvphomework.navigation.IScreens
 
 class UsersPresenter(
@@ -18,48 +19,29 @@ class UsersPresenter(
 ) :
     IUsersPresenter, MvpPresenter<IUsersView>() {
 
-    class UsersListPresenter(private val repo: IUsersRepository) :
-        IUsersListPresenter {
+    class UsersListPresenter : IUsersListPresenter {
 
-        override var items: List<User> = run {
-            var list: List<User> = listOf()
-
-            repo.getUserObservable.subscribe {
-                list = it
-            }
-
-            list
-        }
+        override var items: List<GithubUser> = listOf()
 
         override var updateListener: UpdateListener? = null
-
-        init {
-            repo.getUsersSubject().subscribe {
-                items = it
-                updateListener?.onUpdate?.invoke()
-            }
-        }
 
         override val itemsNumber: Int
             get() = items.size
 
         override fun bind(pos: Int, item: IUserItemView) {
-            item.setUsername(items[pos].username)
+            item.setUsername(items[pos].login)
+            item.setAvatar(items[pos].avatarUrl)
         }
 
         override var onClick: ((UsersListAdapter.UserViewHolder) -> Unit)? = null
     }
 
-    override val listPresenter = UsersListPresenter(repo)
-
-    override fun addUserPressed(username: String) {
-        repo.addNewUser(User(username))
-    }
+    override val listPresenter = UsersListPresenter()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
-        viewState.updateList()
+        initListAdapter()
         listPresenter.onClick = {
             val user = listPresenter.items[it.adapterPosition]
 
@@ -67,6 +49,17 @@ class UsersPresenter(
 
             router.navigateTo(screens.getUserScreen(data))
         }
+    }
+
+    private fun initListAdapter() {
+        repo.getUsersSingle()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ users ->
+                listPresenter.items = users
+                viewState.updateList()
+            }, { e ->
+                e.printStackTrace()
+            })
     }
 
     override fun onBackPressed(): Boolean {
