@@ -8,12 +8,11 @@ import org.romeo.mvphomework.databinding.ItemUserBinding
 import org.romeo.mvphomework.main.GlideImageLoader
 import org.romeo.mvphomework.model.image.ImageLoader
 
-class UsersListAdapter(private val presenter: IUsersListPresenter) :
+class UsersListAdapter(private val presenter: IUsersListPresenter, private val imageLoader: ImageLoader<ImageView>) :
     RecyclerView.Adapter<UsersListAdapter.UserViewHolder>(), UpdateListener {
 
     inner class UserViewHolder(
         private val binding: ItemUserBinding,
-        private val imageLoader: ImageLoader<ImageView>
     ) : RecyclerView.ViewHolder(binding.root), IUserItemView {
 
         init {
@@ -41,8 +40,7 @@ class UsersListAdapter(private val presenter: IUsersListPresenter) :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ),
-            GlideImageLoader()
+            )
         )
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
