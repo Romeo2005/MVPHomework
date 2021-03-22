@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.romeo.mvphomework">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".navigation.App"
         android:allowBackup="true"
