@@ -12,4 +12,7 @@ interface DataSource {
 
     @GET
     fun getGithubRepos(@Url url: String): Single<List<GithubRepo>>
+
+    @GET
+    fun getGithubRepo()
 }

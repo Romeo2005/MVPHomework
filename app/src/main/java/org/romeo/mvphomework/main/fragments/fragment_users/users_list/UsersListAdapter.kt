@@ -1,11 +1,10 @@
-package org.romeo.mvphomework.main.fragments.fragment_users.list
+package org.romeo.mvphomework.main.fragments.fragment_users.users_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import org.romeo.mvphomework.databinding.ItemUserBinding
-import org.romeo.mvphomework.main.GlideImageLoader
 import org.romeo.mvphomework.model.image.ImageLoader
 
 class UsersListAdapter(private val presenter: IUsersListPresenter, private val imageLoader: ImageLoader<ImageView>) :
@@ -28,6 +27,9 @@ class UsersListAdapter(private val presenter: IUsersListPresenter, private val i
         override fun setAvatar(url: String) {
             imageLoader.load(url, binding.avatarImg)
         }
+
+        override val num: Int
+            get() = adapterPosition
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder =

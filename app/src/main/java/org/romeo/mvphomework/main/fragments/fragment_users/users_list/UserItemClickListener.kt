@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.main.fragments.fragment_users.list
+package org.romeo.mvphomework.main.fragments.fragment_users.users_list
 
 import org.romeo.mvphomework.base.base_list.IListPresenter
 
@@ -8,4 +8,4 @@ import org.romeo.mvphomework.base.base_list.IListPresenter
  *  they should be declared here.
  */
 interface UserItemClickListener :
-    IListPresenter.ListItemClickListener<UsersListAdapter.UserViewHolder>
+    IListPresenter.ListItemClickListener<IUserItemView>

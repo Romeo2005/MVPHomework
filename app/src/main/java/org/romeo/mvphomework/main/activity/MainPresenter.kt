@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.main
+package org.romeo.mvphomework.main.activity
 
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter

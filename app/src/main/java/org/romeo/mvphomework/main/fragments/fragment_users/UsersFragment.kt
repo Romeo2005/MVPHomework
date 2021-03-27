@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.ktx.moxyPresenter
 import org.romeo.mvphomework.base.base_fragment.BaseFragment
 import org.romeo.mvphomework.databinding.FragmentUsersBinding
-import org.romeo.mvphomework.main.GlideImageLoader
-import org.romeo.mvphomework.main.fragments.fragment_users.list.UsersListAdapter
+import org.romeo.mvphomework.main.fragments.image.GlideImageLoader
+import org.romeo.mvphomework.main.fragments.fragment_users.users_list.UsersListAdapter
 import org.romeo.mvphomework.model.github.UsersRepository
 import org.romeo.mvphomework.model.github.api.ApiHolder
 import org.romeo.mvphomework.navigation.App

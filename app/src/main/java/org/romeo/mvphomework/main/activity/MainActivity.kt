@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.main
+package org.romeo.mvphomework.main.activity
 
 import android.os.Bundle
 import com.github.terrakok.cicerone.androidx.AppNavigator

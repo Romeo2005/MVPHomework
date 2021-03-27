@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.ktx.moxyPresenter
 import org.romeo.mvphomework.base.base_fragment.BaseFragment
 import org.romeo.mvphomework.databinding.FragmentUserBinding
-import org.romeo.mvphomework.main.GlideImageLoader
+import org.romeo.mvphomework.main.fragments.image.GlideImageLoader
 import org.romeo.mvphomework.main.fragments.USER_KEY
 import org.romeo.mvphomework.main.fragments.fragment_user.repos_list.ReposAdapter
 import org.romeo.mvphomework.model.github.ReposRepository

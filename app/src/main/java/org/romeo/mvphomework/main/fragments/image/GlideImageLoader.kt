@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.main
+package org.romeo.mvphomework.main.fragments.image
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide

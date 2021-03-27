@@ -8,12 +8,21 @@ import org.romeo.mvphomework.databinding.ItemRepoBinding
 class ReposAdapter(private val presenter: IReposListPresenter) :
     RecyclerView.Adapter<ReposAdapter.ReposViewHolder>() {
 
-    class ReposViewHolder(private val binding: ItemRepoBinding) :
+    inner class ReposViewHolder(private val binding: ItemRepoBinding) :
         RecyclerView.ViewHolder(binding.root), IRepoItemView {
+
+        init {
+            binding.root.setOnClickListener {
+                presenter.onClick?.invoke(this)
+            }
+        }
 
         override fun setName(name: String) {
             binding.nameText.text = name
         }
+
+        override val num: Int
+            get() = adapterPosition
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReposViewHolder =

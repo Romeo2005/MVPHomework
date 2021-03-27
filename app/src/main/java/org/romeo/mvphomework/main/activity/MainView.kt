@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.main
+package org.romeo.mvphomework.main.activity
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
