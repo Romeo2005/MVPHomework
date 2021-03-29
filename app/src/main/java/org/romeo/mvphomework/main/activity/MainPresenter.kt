@@ -3,7 +3,7 @@ package org.romeo.mvphomework.main.activity
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import org.romeo.mvphomework.navigation.BackPressedListener
-import org.romeo.mvphomework.navigation.IScreens
+import org.romeo.mvphomework.navigation.screens.IScreens
 
 class MainPresenter(
     private val screens: IScreens,

@@ -8,7 +8,7 @@ import org.romeo.mvphomework.R
 import org.romeo.mvphomework.databinding.ActivityMainBinding
 import org.romeo.mvphomework.navigation.App
 import org.romeo.mvphomework.navigation.BackPressedListener
-import org.romeo.mvphomework.navigation.Screens
+import org.romeo.mvphomework.navigation.screens.Screens
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 

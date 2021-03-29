@@ -11,12 +11,17 @@ import org.romeo.mvphomework.databinding.FragmentUserBinding
 import org.romeo.mvphomework.main.fragments.image.GlideImageLoader
 import org.romeo.mvphomework.main.fragments.USER_KEY
 import org.romeo.mvphomework.main.fragments.fragment_user.repos_list.ReposAdapter
-import org.romeo.mvphomework.model.github.ReposRepository
-import org.romeo.mvphomework.model.github.api.ApiHolder
+import org.romeo.mvphomework.model.github.repository.ReposRepository
+import org.romeo.mvphomework.model.github.network.api.ApiHolder
+import org.romeo.mvphomework.model.github.room.db.GithubDb
+import org.romeo.mvphomework.model.github.storage.repo.RepoDbWorker
+import org.romeo.mvphomework.model.github.storage.repo.RepoStorage
+import org.romeo.mvphomework.model.github.storage.user.UserDbWorker
+import org.romeo.mvphomework.model.github.storage.user.UserStorage
 import org.romeo.mvphomework.model.image.ImageLoader
 import org.romeo.mvphomework.navigation.App
 import org.romeo.mvphomework.navigation.BackPressedListener
-import org.romeo.mvphomework.navigation.Screens
+import org.romeo.mvphomework.navigation.screens.Screens
 
 class UserFragment :
     BaseFragment<FragmentUserBinding>(), IUserView, BackPressedListener {
@@ -24,9 +29,13 @@ class UserFragment :
     private val imageLoader: ImageLoader<ImageView> = GlideImageLoader()
 
     private val presenter: IUserPresenter? by moxyPresenter {
+        val dao = GithubDb.instance.repoDao
+        val worker = RepoDbWorker(dao)
+        val storage = RepoStorage(worker, ApiHolder.dataSource)
+
         UserPresenter(
             arguments?.getParcelable(USER_KEY),
-            ReposRepository(ApiHolder.dataSource),
+            ReposRepository(storage),
             App.instance.router,
             Screens
         )

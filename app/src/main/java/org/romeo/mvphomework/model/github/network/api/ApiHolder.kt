@@ -1,7 +1,8 @@
-package org.romeo.mvphomework.model.github.api
+package org.romeo.mvphomework.model.github.network.api
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
+import org.romeo.mvphomework.model.github.network.GITHUB_BASE
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory

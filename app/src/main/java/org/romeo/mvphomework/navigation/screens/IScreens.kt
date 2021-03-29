@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.navigation
+package org.romeo.mvphomework.navigation.screens
 
 import com.github.terrakok.cicerone.Screen
 import org.romeo.mvphomework.model.github.entities.GithubRepo

@@ -9,16 +9,27 @@ import org.romeo.mvphomework.base.base_fragment.BaseFragment
 import org.romeo.mvphomework.databinding.FragmentUsersBinding
 import org.romeo.mvphomework.main.fragments.image.GlideImageLoader
 import org.romeo.mvphomework.main.fragments.fragment_users.users_list.UsersListAdapter
-import org.romeo.mvphomework.model.github.UsersRepository
-import org.romeo.mvphomework.model.github.api.ApiHolder
+import org.romeo.mvphomework.model.github.repository.UsersRepository
+import org.romeo.mvphomework.model.github.network.api.ApiHolder
+import org.romeo.mvphomework.model.github.room.db.GithubDb
+import org.romeo.mvphomework.model.github.storage.user.UserDbWorker
+import org.romeo.mvphomework.model.github.storage.user.UserStorage
 import org.romeo.mvphomework.navigation.App
 import org.romeo.mvphomework.navigation.BackPressedListener
-import org.romeo.mvphomework.navigation.Screens
+import org.romeo.mvphomework.navigation.screens.Screens
 
 class UsersFragment : IUsersView, BaseFragment<FragmentUsersBinding>(), BackPressedListener {
 
     private val presenter: IUsersPresenter by moxyPresenter {
-        UsersPresenter(App.instance.router, UsersRepository(ApiHolder.dataSource), Screens)
+        val dao = GithubDb.instance.userDao
+        val worker = UserDbWorker(dao)
+        val storage = UserStorage(worker, ApiHolder.dataSource)
+
+        UsersPresenter(
+            App.instance.router,
+            UsersRepository(storage),
+            Screens
+        )
     }
 
     private val lAdapter by lazy { UsersListAdapter(presenter.listPresenter, GlideImageLoader()) }

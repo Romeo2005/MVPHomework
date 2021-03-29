@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.model.github.api
+package org.romeo.mvphomework.model.github.network.api
 
 import io.reactivex.rxjava3.core.Single
 import org.romeo.mvphomework.model.github.entities.GithubRepo
@@ -12,7 +12,4 @@ interface DataSource {
 
     @GET
     fun getGithubRepos(@Url url: String): Single<List<GithubRepo>>
-
-    @GET
-    fun getGithubRepo()
 }

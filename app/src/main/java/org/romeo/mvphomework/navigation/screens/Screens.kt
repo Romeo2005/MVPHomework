@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.navigation
+package org.romeo.mvphomework.navigation.screens
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import org.romeo.mvphomework.base.base_fragment.BaseFragment

@@ -6,9 +6,9 @@ import moxy.MvpPresenter
 import org.romeo.mvphomework.main.fragments.USER_KEY
 import org.romeo.mvphomework.main.fragments.fragment_users.users_list.IUserItemView
 import org.romeo.mvphomework.main.fragments.fragment_users.users_list.IUsersListPresenter
-import org.romeo.mvphomework.model.github.IUsersRepository
+import org.romeo.mvphomework.model.github.repository.IUsersRepository
 import org.romeo.mvphomework.model.github.entities.GithubUser
-import org.romeo.mvphomework.navigation.IScreens
+import org.romeo.mvphomework.navigation.screens.IScreens
 
 class UsersPresenter(
     private val router: Router,
