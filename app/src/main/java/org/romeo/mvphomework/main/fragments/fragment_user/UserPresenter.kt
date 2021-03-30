@@ -6,7 +6,7 @@ import moxy.MvpPresenter
 import org.romeo.mvphomework.main.fragments.REPO_KEY
 import org.romeo.mvphomework.main.fragments.fragment_user.repos_list.IRepoItemView
 import org.romeo.mvphomework.main.fragments.fragment_user.repos_list.IReposListPresenter
-import org.romeo.mvphomework.model.github.repository.IReposRepository
+import org.romeo.mvphomework.model.github.repository.repo.IReposRepository
 import org.romeo.mvphomework.model.github.entities.GithubRepo
 import org.romeo.mvphomework.model.github.entities.GithubUser
 import org.romeo.mvphomework.navigation.screens.IScreens

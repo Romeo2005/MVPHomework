@@ -9,13 +9,16 @@ import org.romeo.mvphomework.base.base_fragment.BaseFragment
 import org.romeo.mvphomework.databinding.FragmentUsersBinding
 import org.romeo.mvphomework.main.fragments.image.GlideImageLoader
 import org.romeo.mvphomework.main.fragments.fragment_users.users_list.UsersListAdapter
-import org.romeo.mvphomework.model.github.repository.UsersRepository
+import org.romeo.mvphomework.model.github.repository.user.UsersRepository
 import org.romeo.mvphomework.model.github.network.api.ApiHolder
 import org.romeo.mvphomework.model.github.room.db.GithubDb
 import org.romeo.mvphomework.model.github.storage.user.UserDbWorker
 import org.romeo.mvphomework.model.github.storage.user.UserStorage
 import org.romeo.mvphomework.navigation.App
-import org.romeo.mvphomework.navigation.BackPressedListener
+import org.romeo.mvphomework.base.base_view.BackPressedListener
+import org.romeo.mvphomework.main.fragments.image.AndroidImageStorage
+import org.romeo.mvphomework.main.fragments.image.AndroidImageWorker
+import org.romeo.mvphomework.model.image.db.MainImageDbWorker
 import org.romeo.mvphomework.navigation.screens.Screens
 
 class UsersFragment : IUsersView, BaseFragment<FragmentUsersBinding>(), BackPressedListener {
@@ -32,7 +35,21 @@ class UsersFragment : IUsersView, BaseFragment<FragmentUsersBinding>(), BackPres
         )
     }
 
-    private val lAdapter by lazy { UsersListAdapter(presenter.listPresenter, GlideImageLoader()) }
+    private val lAdapter by lazy {
+
+        val dbWorker = MainImageDbWorker(
+            GithubDb.instance.imageDao
+        )
+
+        val storage = AndroidImageStorage(context!!)
+
+        val worker = AndroidImageWorker(dbWorker, storage)
+
+        UsersListAdapter(
+            presenter.listPresenter,
+            GlideImageLoader(worker)
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,5 +73,4 @@ class UsersFragment : IUsersView, BaseFragment<FragmentUsersBinding>(), BackPres
     override fun updateList() {
         lAdapter.notifyDataSetChanged()
     }
-
 }

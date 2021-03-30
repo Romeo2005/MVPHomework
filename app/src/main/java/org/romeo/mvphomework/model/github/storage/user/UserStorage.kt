@@ -9,6 +9,7 @@ class UserStorage(
     private val retrofit: DataSource
 ) : IUserStorage {
     override fun getUsers(): Single<List<GithubUser>> =
+        //Работает быстрее
         Single.create { emitter ->
             retrofit.getGithubUsers().blockingSubscribe({ users ->
                 worker.saveUsers(users)

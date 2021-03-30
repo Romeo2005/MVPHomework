@@ -1,4 +1,4 @@
-package org.romeo.mvphomework.model.github.repository
+package org.romeo.mvphomework.model.github.repository.repo
 
 import io.reactivex.rxjava3.core.Single
 import org.romeo.mvphomework.model.github.entities.GithubRepo

@@ -16,7 +16,7 @@ import org.romeo.mvphomework.model.github.entities.GithubRepo
         )
     ]
 )
-class RoomRepo(
+data class RoomRepo(
     @PrimaryKey
     val id: String,
     val name: String,
