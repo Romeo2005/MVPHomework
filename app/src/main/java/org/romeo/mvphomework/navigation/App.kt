@@ -2,6 +2,7 @@ package org.romeo.mvphomework.navigation
 
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
+import org.romeo.mvphomework.model.github.room.db.GithubDb
 
 class App : Application() {
     private val cicerone by lazy { Cicerone.create() }
@@ -16,6 +17,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        GithubDb.create(this)
         instance = this
     }
 }
