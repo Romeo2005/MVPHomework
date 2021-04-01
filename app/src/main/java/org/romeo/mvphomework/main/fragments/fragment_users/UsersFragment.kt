@@ -7,19 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.ktx.moxyPresenter
 import org.romeo.mvphomework.base.base_fragment.BaseFragment
 import org.romeo.mvphomework.databinding.FragmentUsersBinding
-import org.romeo.mvphomework.main.fragments.image.GlideImageLoader
 import org.romeo.mvphomework.main.fragments.fragment_users.users_list.UsersListAdapter
-import org.romeo.mvphomework.model.github.repository.user.UsersRepository
-import org.romeo.mvphomework.model.github.network.api.ApiHolder
-import org.romeo.mvphomework.model.github.room.db.GithubDb
-import org.romeo.mvphomework.model.github.storage.user.UserDbWorker
-import org.romeo.mvphomework.model.github.storage.user.UserStorage
 import org.romeo.mvphomework.navigation.App
 import org.romeo.mvphomework.base.base_view.BackPressedListener
-import org.romeo.mvphomework.main.fragments.image.AndroidImageStorage
-import org.romeo.mvphomework.main.fragments.image.AndroidImageWorker
-import org.romeo.mvphomework.model.image.db.MainImageDbWorker
-import org.romeo.mvphomework.navigation.screens.Screens
 
 class UsersFragment : IUsersView, BaseFragment<FragmentUsersBinding>(), BackPressedListener {
 

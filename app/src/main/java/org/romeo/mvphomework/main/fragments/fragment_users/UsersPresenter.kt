@@ -2,6 +2,7 @@ package org.romeo.mvphomework.main.fragments.fragment_users
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import org.romeo.mvphomework.base.DEFAULT_ERROR_MESSAGE
 import org.romeo.mvphomework.main.fragments.USER_KEY
@@ -11,6 +12,7 @@ import org.romeo.mvphomework.model.github.repository.user.IUsersRepository
 import org.romeo.mvphomework.model.github.entities.GithubUser
 import org.romeo.mvphomework.navigation.screens.IScreens
 import javax.inject.Inject
+import javax.inject.Named
 
 class UsersPresenter :
     IUsersPresenter, MvpPresenter<IUsersView>() {
@@ -23,6 +25,10 @@ class UsersPresenter :
 
     @Inject
     lateinit var repo: IUsersRepository
+
+    @Inject
+    @field:Named("MAIN")
+    lateinit var mainScheduler: Scheduler
 
 
     class UsersListPresenter : IUsersListPresenter {
@@ -61,7 +67,7 @@ class UsersPresenter :
 
     private fun initListAdapter() {
         repo.getUsersSingle()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(mainScheduler)
             .subscribe({ users ->
                 listPresenter.items = users
                 viewState.updateList()

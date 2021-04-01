@@ -2,6 +2,7 @@ package org.romeo.mvphomework.main.fragments.fragment_user
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import org.romeo.mvphomework.main.fragments.REPO_KEY
 import org.romeo.mvphomework.main.fragments.fragment_user.repos_list.IRepoItemView
@@ -11,6 +12,7 @@ import org.romeo.mvphomework.model.github.entities.GithubRepo
 import org.romeo.mvphomework.model.github.entities.GithubUser
 import org.romeo.mvphomework.navigation.screens.IScreens
 import javax.inject.Inject
+import javax.inject.Named
 
 class UserPresenter(
     private val user: GithubUser?,
@@ -24,6 +26,10 @@ class UserPresenter(
 
     @Inject
     lateinit var reposRepo: IReposRepository
+
+    @Inject
+    @field:Named("MAIN")
+    lateinit var mainScheduler: Scheduler
 
     inner class ReposListPresenter : IReposListPresenter {
         override var items: List<GithubRepo> = listOf()
@@ -61,7 +67,7 @@ class UserPresenter(
             viewState.initReposList()
 
             reposRepo.getReposSingle(user)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(mainScheduler)
                 .subscribe({ repos ->
                     listPresenter.items = repos
                     viewState.updateList()

@@ -9,21 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.ktx.moxyPresenter
 import org.romeo.mvphomework.base.base_fragment.BaseFragment
 import org.romeo.mvphomework.databinding.FragmentUserBinding
-import org.romeo.mvphomework.main.fragments.image.GlideImageLoader
 import org.romeo.mvphomework.main.fragments.USER_KEY
 import org.romeo.mvphomework.main.fragments.fragment_user.repos_list.ReposAdapter
-import org.romeo.mvphomework.model.github.repository.repo.ReposRepository
-import org.romeo.mvphomework.model.github.network.api.ApiHolder
-import org.romeo.mvphomework.model.github.room.db.GithubDb
-import org.romeo.mvphomework.model.github.storage.repo.RepoDbWorker
-import org.romeo.mvphomework.model.github.storage.repo.RepoStorage
 import org.romeo.mvphomework.model.image.ImageLoader
 import org.romeo.mvphomework.navigation.App
 import org.romeo.mvphomework.base.base_view.BackPressedListener
-import org.romeo.mvphomework.main.fragments.image.AndroidImageStorage
-import org.romeo.mvphomework.main.fragments.image.AndroidImageWorker
-import org.romeo.mvphomework.model.image.db.MainImageDbWorker
-import org.romeo.mvphomework.navigation.screens.Screens
 import javax.inject.Inject
 
 class UserFragment :

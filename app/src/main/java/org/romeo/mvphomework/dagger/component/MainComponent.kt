@@ -22,7 +22,8 @@ import javax.inject.Singleton
         DbModule::class,
         ImageModule::class,
         RepositoryModule::class,
-        StorageModule::class
+        StorageModule::class,
+        SchedulersModule::class
     ]
 )
 interface MainComponent {
