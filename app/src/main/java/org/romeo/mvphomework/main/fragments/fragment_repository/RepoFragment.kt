@@ -1,5 +1,6 @@
 package org.romeo.mvphomework.main.fragments.fragment_repository
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,9 +15,8 @@ class RepoFragment : BaseFragment<FragmentRepoBinding>(), RepoView {
 
     private val presenter: RepoPresenter by moxyPresenter {
         RepoPresenter(
-            arguments?.getParcelable(REPO_KEY),
-            App.instance.router
-        )
+            arguments?.getParcelable(REPO_KEY)
+        ).apply { App.instance.mainComponent.inject(this) }
     }
 
     override fun onCreateView(

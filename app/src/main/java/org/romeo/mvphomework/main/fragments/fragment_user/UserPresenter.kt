@@ -10,13 +10,20 @@ import org.romeo.mvphomework.model.github.repository.repo.IReposRepository
 import org.romeo.mvphomework.model.github.entities.GithubRepo
 import org.romeo.mvphomework.model.github.entities.GithubUser
 import org.romeo.mvphomework.navigation.screens.IScreens
+import javax.inject.Inject
 
 class UserPresenter(
     private val user: GithubUser?,
-    private val reposRepo: IReposRepository,
-    private val router: Router,
-    private val screens: IScreens
 ) : IUserPresenter, MvpPresenter<IUserView>() {
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
+
+    @Inject
+    lateinit var reposRepo: IReposRepository
 
     inner class ReposListPresenter : IReposListPresenter {
         override var items: List<GithubRepo> = listOf()
@@ -40,7 +47,7 @@ class UserPresenter(
     }
 
     override fun onBackPressed(): Boolean {
-        router.replaceScreen(screens.getUsersScreen())
+        router.exit()
         return true
     }
 

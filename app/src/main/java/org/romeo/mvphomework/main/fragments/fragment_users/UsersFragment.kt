@@ -24,31 +24,17 @@ import org.romeo.mvphomework.navigation.screens.Screens
 class UsersFragment : IUsersView, BaseFragment<FragmentUsersBinding>(), BackPressedListener {
 
     private val presenter: IUsersPresenter by moxyPresenter {
-        val dao = GithubDb.instance.userDao
-        val worker = UserDbWorker(dao)
-        val storage = UserStorage(worker, ApiHolder.dataSource)
-
-        UsersPresenter(
-            App.instance.router,
-            UsersRepository(storage),
-            Screens
-        )
+        UsersPresenter().apply {
+            App.instance
+                .mainComponent
+                .inject(this)
+        }
     }
 
     private val lAdapter by lazy {
-
-        val dbWorker = MainImageDbWorker(
-            GithubDb.instance.imageDao
-        )
-
-        val storage = AndroidImageStorage(context!!)
-
-        val worker = AndroidImageWorker(dbWorker, storage)
-
         UsersListAdapter(
-            presenter.listPresenter,
-            GlideImageLoader(worker)
-        )
+            presenter.listPresenter
+        ).apply { App.instance.mainComponent.inject(this) }
     }
 
     override fun onCreateView(

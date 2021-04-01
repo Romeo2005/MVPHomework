@@ -3,11 +3,14 @@ package org.romeo.mvphomework.main.fragments.fragment_repository
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import org.romeo.mvphomework.model.github.entities.GithubRepo
+import javax.inject.Inject
 
 class RepoPresenter(
     private val repo: GithubRepo?,
-    private val router: Router
 ) : MvpPresenter<RepoView>(), IRepoPresenter {
+
+    @Inject
+    lateinit var router: Router
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

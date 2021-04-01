@@ -8,14 +8,17 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import org.romeo.mvphomework.databinding.ItemUserBinding
 import org.romeo.mvphomework.model.image.ImageLoader
+import javax.inject.Inject
 
 class UsersListAdapter(
     private val presenter: IUsersListPresenter,
-    private val imageLoader: ImageLoader<ImageView>
 ) :
     RecyclerView.Adapter<UsersListAdapter.UserViewHolder>(), UpdateListener {
 
     private lateinit var context: Context
+
+    @Inject
+    lateinit var imageLoader: ImageLoader<ImageView>
 
     inner class UserViewHolder(
         private val binding: ItemUserBinding,

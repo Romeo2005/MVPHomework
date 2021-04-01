@@ -4,11 +4,15 @@ import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import org.romeo.mvphomework.base.base_view.BackPressedListener
 import org.romeo.mvphomework.navigation.screens.IScreens
+import javax.inject.Inject
 
-class MainPresenter(
-    private val screens: IScreens,
-    private val router: Router
-) : MvpPresenter<MainView>(), BackPressedListener {
+class MainPresenter : MvpPresenter<MainView>(), BackPressedListener {
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
 
     override fun onFirstViewAttach() {
         router.replaceScreen(screens.getUsersScreen())

@@ -8,7 +8,7 @@ import org.romeo.mvphomework.main.fragments.fragment_users.UsersFragment
 import org.romeo.mvphomework.model.github.entities.GithubRepo
 import org.romeo.mvphomework.model.github.entities.GithubUser
 
-object Screens : IScreens {
+class Screens : IScreens {
     override fun getUsersScreen() =
         FragmentScreen { BaseFragment.newInstance<UsersFragment>() }
 

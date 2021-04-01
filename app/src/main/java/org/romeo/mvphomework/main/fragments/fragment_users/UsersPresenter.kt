@@ -10,13 +10,20 @@ import org.romeo.mvphomework.main.fragments.fragment_users.users_list.IUsersList
 import org.romeo.mvphomework.model.github.repository.user.IUsersRepository
 import org.romeo.mvphomework.model.github.entities.GithubUser
 import org.romeo.mvphomework.navigation.screens.IScreens
+import javax.inject.Inject
 
-class UsersPresenter(
-    private val router: Router,
-    private val repo: IUsersRepository,
-    private val screens: IScreens
-) :
+class UsersPresenter :
     IUsersPresenter, MvpPresenter<IUsersView>() {
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
+
+    @Inject
+    lateinit var repo: IUsersRepository
+
 
     class UsersListPresenter : IUsersListPresenter {
 

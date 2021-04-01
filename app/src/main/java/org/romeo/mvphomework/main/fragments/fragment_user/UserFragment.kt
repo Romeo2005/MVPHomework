@@ -1,5 +1,6 @@
 package org.romeo.mvphomework.main.fragments.fragment_user
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -23,38 +24,27 @@ import org.romeo.mvphomework.main.fragments.image.AndroidImageStorage
 import org.romeo.mvphomework.main.fragments.image.AndroidImageWorker
 import org.romeo.mvphomework.model.image.db.MainImageDbWorker
 import org.romeo.mvphomework.navigation.screens.Screens
+import javax.inject.Inject
 
 class UserFragment :
     BaseFragment<FragmentUserBinding>(), IUserView, BackPressedListener {
 
-    private val imageLoader: ImageLoader<ImageView> by lazy {
-        val dbWorker = MainImageDbWorker(
-            GithubDb.instance.imageDao
-        )
-
-        val storage = AndroidImageStorage(context!!)
-
-        val worker = AndroidImageWorker(dbWorker, storage)
-
-        GlideImageLoader(worker)
-    }
-
+    @Inject
+    lateinit var imageLoader: ImageLoader<ImageView>
 
     private val presenter: IUserPresenter? by moxyPresenter {
-        val dao = GithubDb.instance.repoDao
-        val worker = RepoDbWorker(dao)
-        val storage = RepoStorage(worker, ApiHolder.dataSource)
-
         UserPresenter(
-            arguments?.getParcelable(USER_KEY),
-            ReposRepository(storage),
-            App.instance.router,
-            Screens
-        )
+            arguments?.getParcelable(USER_KEY)
+        ).apply { App.instance.mainComponent.inject(this) }
     }
 
     private val lAdapter: ReposAdapter? by lazy {
         presenter?.let { ReposAdapter(it.listPresenter) }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        App.instance.mainComponent.inject(this)
     }
 
     override fun onCreateView(

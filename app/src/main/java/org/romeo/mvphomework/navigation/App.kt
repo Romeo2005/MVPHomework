@@ -1,15 +1,13 @@
 package org.romeo.mvphomework.navigation
 
 import android.app.Application
-import com.github.terrakok.cicerone.Cicerone
+import org.romeo.mvphomework.dagger.component.DaggerMainComponent
+import org.romeo.mvphomework.dagger.component.MainComponent
+import org.romeo.mvphomework.dagger.module.AppModule
 import org.romeo.mvphomework.model.github.room.db.GithubDb
 
 class App : Application() {
-    private val cicerone by lazy { Cicerone.create() }
-
-    val navigatorHolder get() = cicerone.getNavigatorHolder()
-
-    val router get() = cicerone.router
+    lateinit var mainComponent: MainComponent
 
     companion object {
         lateinit var instance: App
@@ -18,6 +16,13 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         GithubDb.create(this)
+
+        mainComponent =
+            DaggerMainComponent
+                .builder()
+                .appModule(AppModule(this))
+                .build()
+
         instance = this
     }
 }

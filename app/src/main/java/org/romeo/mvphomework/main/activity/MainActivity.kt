@@ -1,6 +1,8 @@
 package org.romeo.mvphomework.main.activity
 
 import android.os.Bundle
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
@@ -9,8 +11,12 @@ import org.romeo.mvphomework.databinding.ActivityMainBinding
 import org.romeo.mvphomework.navigation.App
 import org.romeo.mvphomework.base.base_view.BackPressedListener
 import org.romeo.mvphomework.navigation.screens.Screens
+import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MainView {
+
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
 
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -21,21 +27,26 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     private val presenter by moxyPresenter {
-        MainPresenter(Screens, App.instance.router)
+        MainPresenter().apply {
+            App.instance.mainComponent.inject(this)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        App.instance.mainComponent.inject(this)
+
         setContentView(binding.root)
     }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-        App.instance.navigatorHolder.setNavigator(navigator)
+        navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
-        App.instance.navigatorHolder.removeNavigator()
+        navigatorHolder.removeNavigator()
 
         super.onPause()
     }
